@@ -1,0 +1,11 @@
+Title: Стили для ссылки, с переходом в новое окно
+Content: Для того чтобы открыть ссылочку в новом окне мы используем атрибут **target** со значением **_blank**.
+
+```
+<a href="#" target="_blank">open link in new window</a>
+```
+
+Что если, для таких ссылок, задавать свои правила CSS? Я думаю стоит подумать об этом. Если сайт посещаемый, можно научить подльзователя различать такие ссылки. В примере ниже на такой ссылке выводится тултип. Либо можно менее очевидно, окрашивать в другой цвет либо использовать другое подчеркивание.
+
+<iframe height='265' scrolling='no' title='CSS open link' src='http://codepen.io/Smitevils/embed/ZpdqOx/?height=265&theme-id=dark&default-tab=html,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='http://codepen.io/Smitevils/pen/ZpdqOx/'>CSS open link</a> by Alexey (<a href='http://codepen.io/Smitevils'>@Smitevils</a>) on <a href='http://codepen.io'>CodePen</a>.
+</iframe>

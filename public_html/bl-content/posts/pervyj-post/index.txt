@@ -1,0 +1,5 @@
+Title: Первый пост
+Content: В этом блоге, я буду описывать все, что так или ниаче связано с Web IT. Верстка, JS, дизайн и другое. Постараюсь делать обучающий материал, мелкие заметки.
+<div class="text-center">
+<img width="60%" src="https://s-media-cache-ak0.pinimg.com/564x/a3/9e/fe/a39efeae469afcdcd2f66fa77fbfccca.jpg">
+</div>

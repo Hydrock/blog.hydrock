@@ -1,0 +1,55 @@
+Title: CSS переменные
+Content: <h2>Поддержка</h2>
+C [поддержкой](http://caniuse.com/#search=css%20Variables) все довольно не плохо. Как всегда отличились детища мелкомягких. Но говорят, поддержка и у них скоро бутет.
+<img src="http://s020.radikal.ru/i710/1611/aa/3fe8c6d65049.jpg" alt="can i use - css variables" style="width: 100%; height: auto;">
+<h2>Определение</h2>
+Переменная css обявляется с помощью двух дефисов за которыми следует имя переменной **--имяпеременной** (например --color). Использование так же простое - в значение свойства нужно написать ключевое слово var и в скобках передать имя переменной.
+<script async src="https://jsfiddle.net/SmiteVils/avL2yauv/8/embed/html,css,result/dark/"></script>
+<h2>CSS переменные и препроцессор</h2>
+При указании css переменной в scss - var() - Препроцессор передает переменную строкой в ковычках, как неизвестную сущность. Ее нужно избавить от ковычек. Используйте функцию unquote().
+<script async src="https://jsfiddle.net/SmiteVils/6nxvucpt/9/embed/html,css,result/dark/"></script>
+Переменная в css вовсе не переменная, в обычном понимании. Это что то вроде пользовательского свойства. Оно может переопределяться в своей облласти видимости.
+<script async src="https://jsfiddle.net/SmiteVils/zcfc85te/10/embed/html,css,result/dark/"></script>
+<h2>Переопределение в медиазапросах.</h2>
+Переменные CSS, в отличие от SASS, можно переопределять в медиазапросах. В примере ниже дан iframe эмулирующий браузер. Ползунок ниже меняет его длину - разрешение. Установлено три точки перелома. По умолчанию создана переменная `:root {--color: #fff;}`  и установлена как цвет бэкграунда. В точках перелома мы переопределяем переменную, обязательно указывая область видимости, в нашем случаее :root.<br/>
+`@media only screen and (max-width:510px){:root{--color: Tomato;)}}` <br/>
+`@media only screen and (max-width:410px){:root{--color: Crimson;}}` <br/>
+`@media only screen and (max-width:210px){:root{--color: HotPink;}}` <br/>
+Попробуйте поиграть ползенком.
+<iframe id="iframe" style="width: 300px; border: 1px solid rgb(153, 153, 153);" srcdoc="<style>:root {--color: #fff;}  body{background: var(--color); transition: all 0.7s;} @media only screen and (max-width:510px){:root{--color: Tomato;)}}@media only screen and (max-width:410px){:root{--color: Crimson;}}@media only screen and (max-width:210px){:root{--color: HotPink;}}</style><p></p>" src="nosrcdoc.html"></iframe>
+<div><span>iframe width: </span><span id="rangeLabel">400</span><span>px</span></div>
+<div style="position: relative; height: 11px; color: #bdbdbd; pointer-events: none; user-select: none; -webkit-user-select: none;">
+<span style="position: absolute; left: 82%;">|</span>
+<span style="position: absolute; left: 62%;">|</span>
+<span style="position: absolute; left: 23%;">|</span>
+</div>
+<input id="range" style="position: relative; z-index: 2;" type="range" min="100" max="600" value="400" onCreate="var x = document.getElementById('range').value; var elem = document.getElementById('rangeLabel'); elem.innerHTML = ''+x+''; document.getElementById('iframe').style.width=x+'px';" onChange="var x = document.getElementById('range').value; var elem = document.getElementById('rangeLabel'); elem.innerHTML = ''+x+''; document.getElementById('iframe').style.width=x+'px';">
+<h2>Динамическая замена</h2>
+Наши пользовательские свойства ведут себя как обычный css - т.е. динамически. Если сменить значение свойства в DevTools то результат мы увидем тутже. Все это пригодится для динамической смены стилей.
+<h2>Вычисление значений - calc()</h2>
+Если смешать css переменные и функцию calc() - можно получать динамические значения.
+```
+.class {
+  --variable: 20;
+  margin-top: calc(var(--variable) * 1px); /* 20px */
+}
+```
+<h2>Работа с CSS переменными из JavaScript</h2>
+
+Получаем значение:
+
+Нам понадобится функция <a href="https://learn.javascript.ru/styles-and-classes#полный-стиль-из-getcomputedstyle" target="_blank">getComputedStyle</a>
+
+<script async src="https://jsfiddle.net/SmiteVils/ggqjajdp/2/embed/js,html,css,result/dark/"></script>
+
+Задаем значение так:
+
+<script async src="https://jsfiddle.net/SmiteVils/L8nd6qg3/2/embed/js,html,css,result/dark/"></script>
+
+Так же, при установке кастомного значения из JS, можно ссылаться на другое кастомное значение.
+
+<script async src="https://jsfiddle.net/SmiteVils/pmz73ke7/1/embed/js,html,css,result/dark/"></script>
+
+<h2>Заключение</h2>
+
+Я считаю что новые CSS переменные / кастомные свойства очень интересны. Они открывают большие возможности. Дождемся EDGE и IE и можно вовсю использовать.

@@ -1,0 +1,2 @@
+<?php defined('BLUDIT') or die('Bludit CMS.'); ?>
+{"title":"Hydrock Blog","slogan":"CMS","description":"\u0411\u043b\u043e\u0433 IT","footer":"Copyright Hydrock \u00a9 2016","language":"ru_RU","locale":"ru_RU","timezone":"Europe\/Moscow","theme":"klean","adminTheme":"default","homepage":"","postsperpage":"6","uriPost":"\/post\/","uriPage":"\/","uriTag":"\/tag\/","url":"http:\/\/blog.hydrock.ru\/","emailFrom":"no-reply@hydrock.ru","currentBuild":"20161011","twitter":"","facebook":"","googlePlus":"","instagram":"","github":"","uriBlog":"\/blog\/"}

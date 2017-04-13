@@ -1,0 +1,2 @@
+<?php defined('BLUDIT') or die('Bludit CMS.'); ?>
+{"key1":"26cb9efd518d901fc0a142ff0eee00d6a6162ac1","minutesBlocked":5,"numberFailuresAllowed":10,"blackList":{"95.161.154.46":{"lastFailure":1484551417,"numberFailures":1},"5.18.202.98":{"lastFailure":1477740941,"numberFailures":1},"5.18.200.151":{"lastFailure":1487858661,"numberFailures":1}}}

@@ -1,0 +1,390 @@
+Title: Глубокое погружение в CSS: Размер шрифта, высота строки и вертикальное выравнивание.
+Content: Это моя личная адаптация вот этой <a href="http://iamvdo.me/en/blog/css-font-metrics-line-height-and-vertical-align?utm_source=CSS-Weekly&utm_campaign=Issue-253&utm_medium=email" target="_blank">статьи</a>. Для меня она показалась немного сложной, хоть и очень обширной. Попробую рассказать своим языком.
+
+Вы наверное замечали, что разные семейства шрифтов, при одинаковом `font-size`, имеют разную высоту. Это еще та заноза в заднице. 
+
+<iframe width="100%" height="300" src="https://jsfiddle.net/054zq7an/10/embedded/result,html,css/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+* попробуйте выделить все символы и вы увидите нечто похожее на это:
+
+![Разная высота шрифта](1488208539567.jpg)
+
+`line-height` разный не смотря на то что шрифты имеют `font-size: 100px`
+
+Что бы управлять этим поведением, необходимо понимать как это все работает.
+
+Создадим следующую ситуацию:
+
+Имеем три семейства шрифта в ряд -  Open Sans, Gruppo, Catamaran
+
+![Три семейства шрифта](111.jpg)
+
+Сделаем скриншот и замерим высоту их выделения - их `line-height`
+
+<img src="http://blog.hydrock.ru/bl-content/uploads/111111111.jpg" style="width: 700px; margin-bottom: 20px;">
+<img src="http://blog.hydrock.ru/bl-content/uploads/222222222222.jpg" style="width: 700px; margin-bottom: 20px;">
+<img src="http://blog.hydrock.ru/bl-content/uploads/3333333.jpg" style="width:700px;">
+
+Итого мы имеем:
+
+Open Sans - 136px
+Gruppo - 97px
+Catamaran - 164px
+
+Странно правда? Давайте разбираться.
+
+Шрифт определяется его `em-квадратом` (или единицей em) своего контейнера, в котором будет нарисован каждый символ. Этот квадрат использует относительные единицы и обычно устанавливает значение на уровне 1000 единиц. Но здесь также может применяться значение 1024, 2048 и т.д.
+
+* "Полный" размер шрифта определяется его `em-квадратом`, своего рода контейнер в котором будет нарисован каждый символ данного шрифта.
+*Тут стоит немного углубиться в историю. Почему собственно `em`? Подробнее можно почитать [здесь](http://designwithfontforge.com/en-US/The_EM_Square.html). Если совсем коротко то `EM` это длинна заглавной буквы M в типографии, какой то базовый размер для блоков символов в печати. Можете так же почитать об этом на [вики](https://en.wikipedia.org/wiki/Em_(typography))*
+Этот размер может быть задан как 1000 или 1024 или 2048 или еще как то.
+
+* Настоящий размер расчитывается на основе характеристик шрифта - (ascender, descender, capital height, x-height и т.д.) Стоит отметить что некоторые элементы или завитки шрифта могут выходить за предеты `em-квадрата` (при разработке шрифта), тогда эти кусочки не влияют на формирование размера шрифта, на его размер влияет только сам em-квадрат.
+
+* В браузере - относительные единицы (внутри самого шрифта) масштабируются под размер указанного шрифта в CSS
+
+Давайте попробуем открыть шрифт `Catamaran` в программе [FontForge](https://fontforge.github.io/en-US/), и посмотрим на его характеристики:
+
+<img src="http://blog.hydrock.ru/bl-content/uploads/catamarangeneralinfo.jpg" style="width:700px;">
+<img src="http://blog.hydrock.ru/bl-content/uploads/catamaranos2info.jpg" style="width:700px;">
+
+* em-квадрат 1000;
+* Ascender — 1100 (высота от базовой линии от 0) и Descender (высота от базовой линии от 0 - На Mac эта цифра уходит в минус) — 540.
+
+<img src="https://s-media-cache-ak0.pinimg.com/originals/d5/bc/f5/d5bcf5f19296029b2f77e14f943c81a3.png" style="width:400px;">
+*Ascender*
+<img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Typographic_descenders.png" style="width:400px;">
+*Descender*
+
+ *Причем для разных операционных систем могут быть использованы разные значения - HHead Ascent/Descent  на Mac OS, и Win Ascent/Descent на Windows*  
+ * Прописная буква - Capital Height - уровень вершины заглавной буквы - 640 единиц
+ <img src=" https://s-media-cache-ak0.pinimg.com/originals/87/3d/4d/873d4d60d8373ff2752240054828f817.gif" style="width:400px;">
+ * Строчная буква -  X Height - 485 единиц
+ <img src="http://www.thebookdesigner.com/wp-content/uploads/2012/01/x-height4.jpg" style="width:400px;">
+
+Сам em-квадрат определяется на влкладке general - главные Ascender и Descender - 770 и 230 соттветственно. Это наш em-квадрат. Но на вкладке OS/2 (На сколько я понял для Windows) Ascender  - вевхняя линия на значении 1100, Descender - Самая нижняя линия шрифта уходит вниз от базовой на 540 единиц, (т.е. взято с запасом на разные завитки)  а это значит что весь символ занимает 1640 единиц (И еще раз расчет будет вестись относительно 1000 - но символ будет иметь 1640 единиц относительно тысячи.). Так как сам em-квадрат имеет размер 1000 - то все остальные размеры зависят от этой величены. Делим. 1640 / 1000 = 1,64 - таков размер одной внутренней единицы em блока. А так как font-size равен 100px получаем, 1,64 * 100 = 164px - размер шрифта.
+
+Немного сложновато. Но теперь мы можем это проверить, давайте попробуем. X Height - строчная буква равна 485 единиц. Считаем 485 / 1000 * 100 = 48,5 - Скорее всего это будет 49 пикселей. Сверим со скриншотом.
+
+ <img src="http://blog.hydrock.ru/bl-content/uploads/catermanxheight.jpg" style="width:600px;">
+ 
+ Вау! Все верно! Напомню, что всякие завитушки могут выходить основные размеры. Это уже как нарисует мастер. А теперь расчитаем высоту большой буквы!
+ 
+680 / 1000 * 100 = 68px Идем проверять!
+
+ <img src="http://blog.hydrock.ru/bl-content/uploads/catermancapitalheight_0.jpg" style="width:600px;">
+ 
+ Все верно! Все остальное расчитывается таким же образом.
+ 
+ Я сам не до конца понимаю, как все это работает. Нужен опыт в создании шрифтов. Но все же пойдем дальше и будем разбираться.
+ 
+ Теперь получается следующее: 1ex - маленький символ у нас равен 49px, а вот 1em равен вовсе не 164 пикселя как мы померяли выше (область выделения), и не 68 пикселей (размер самой буквы) как мы померяли выше тоже, а именно 100 пикселей, как мы изначально указали в css. Все именно так em-квадрат будет иметь размер указанный в css. Но если в шрифте символ занимает больше места чем его контейнер и это отражено в настройках шрифта, то эти размеры будут расчитываться относительно размера em-квадрата.
+ 
+ И картинка...
+ 
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/upm-px-equivalent.png" style="width:600px;">
+ 
+ Фуух! Голова идет кругом. Рекомендую открыть программу и посмотреть самим. Но все же идем дальше.
+ 
+ Когда элемент `<p>` отображается на экране, то он может состоять из нескольких линий/строк. Каждая строка состоит из одного или нескольких inline-элементов (HTML-теги или анонимные imline-элементы - просто текст). Такая блок-линия называется как `line-box`. **Высота line-box основана на высоте его дочерних элементов, точнее на самом высоком элементе ** 
+ 
+ *Каждый HTML-элемент на самом деле является неким множеством, состящим из line-boxes. Если вы знаете высоту каждого line-box, Вы знаете высоту самого элемента.*
+ 
+Попробуем поменять верстку следующим образом
+
+```
+<p>
+    Good design will be better.
+    <span class="a">Ba</span>
+    <span class="b">Ba</span>
+    <span class="c">Ba</span>
+    We get to make a consequence.
+</p>
+```
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/line-boxes.png" style="width:600px;">
+ 
+На картинке прекрасно видно, что второй line-box (вторая строчка) выше чем остальные две, в связи с тем что один из элементов этого line-box, использует шрифт Catamaran. Трудность здесь в том что увидеть line-height так то просто. Если элемент один на строке, его можно выделить и по выделению понять какая высота у элемента, но если на одном line-box несколько разных элементов, то высота  line-box становится по самому высокому.
+
+<h2>Проблемы line-height</h2>
+
+Ранее мы определили два понятия `content-area` и `line-box`.
+
+Напомню:
+
+* content-area - область где рисуется отдельный символ, вычесленная на основе размера em
+* line-box - линия inline элементов, высота которой вычесляется по самому высокому элементу внутри нее.
+
+Это может показаться довольно странным, но каждый inline-элемент, имеет в себе две высоты - высоту content-area и высоту virtual-area.  virtual-area - этого термина нет в спецификации, это нечто совсем невидимое для нас.
+
+И еще раз:
+* **content-area** - определяется размером шрифта
+* **virtual-area** - это `line-height`, а так же это высота используемая для вычисления высоты line-box
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/line-height.png" style="width:600px;">
+Минимальный line-height (если он не задан вручную) - это высота символа, content-area - либо он равняется самой большой высоте элемента в строке / line-box
+
+Исходя из этого можно сделать заключение что `line-height` это не расстояние между базовыми линиями (baselane), а рассчитаная разность высот virtual-area и content-area. Эта высота называется ведущей. Т.е. от virtual-area отнимается virtual-area, половина этой ведущей добавляется к верхней части content-area, другая часть — к нижней. Content-area располагается всегда в центре virtual-area.
+
+line-height (virtual-area) может быть равной или даже меньше content-area. Если virtual-area меньше content-area, то ведущее значение будет отрицательным и line-box стане визуально меньше его дочернего элемента.
+
+Существуют и другие виды inline-элементов:
+
+* inline-элементы (`<img>`, `<input>`, `<svg>`, etc.)
+* inline-block и все inline-* элементы
+* inline-элементы, которые используются в качестве форматирования текста (например, во flexbox-элементах)
+
+Для этих inline-элементов, высота вычисляется на основе height, margin и border. Если height имеет значение auto, то line-height используется в content-area и строго равна line-height.
+
+<iframe width="100%" height="300" src="https://jsfiddle.net/ayqov8pj/3/embedded/result,html,css/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+Теперь вернемся к нашему редактору шрифтов.
+
+Em-квадрат шрифта Catamaran равен 1000, но мы видим значения ascender/descender: 
+
+* Ascent/Descent: ascender — 770 и descender — 230. Используется для символьных рисунков. (табл. “OS/2”)
+* показатели Ascent/Descent: ascender — 1100 и descender — 540. Используется для высоты content-area. (табл. “hhea” и табл. “OS/2”)
+* показатель Line Gap. Используется для line-height: normal, путем добавления этого значения показателей Ascent/Descent. (табл. “hhea”)
+
+В нашем случае, шрифт Catamaran определяет разрыв в 0 единиц для line gap, поэтому `line-height: normal` будет равен content-area, который составляет 1640 единиц, иначе 1.64.
+
+line gap - это разрыв между строчками в символах (в самом шрифте)
+
+Для сравнения, возьмем шрифт Arial, em-квадрат которого 2048 единиц, ascender — 1854, descender — 434 и line gap составляет 67. Это означает, что при font-size: 100px, `content-area` будет равна 1854 + 434 = 2288  = 2288 / 2048 = 1,1171875 = 1,1171875 * 100 = 111,71875 = `112px` , таким же образом `line-height` будет равна 1854 + 434 + 67 = 2355 = 2355 / 2048 = 1,149902344 = 1,149902344 * 100 = 114,9902344 = `115px` Все эти показатели шрифта устанавливаются разработчиком шрифта.
+
+Сложно, но видно что установка `line-height: 1` плохая практика. В нашем случае будет следующее.
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/line-height-1.png" style="width:600px;">
+ 
+ Установив `line-height: 1` - мы сказали нашему блоку стать по размеру шрифта в 100px, но content-area расчитана в 164px. Таким образом визуально ничего не изменится, но вот физически символ займет, на 32px меньше, сверху и снизу нашей content-area
+
+Хочется уточнить о вычислении line-box:
+
+* для inline-элементов, `padding` и `border` увеличивают область фона, но не высоту content-area (или высоту line-box).Сontent-area — это не всегда то, что ты видишь на экране. margin-top и margin-bottom не имеют ни какого эффекта.
+
+Пример
+
+<iframe width="100%" height="500" src="https://jsfiddle.net/y3fdL0nz/4/embedded/result,html,css/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+* для inline-block и blocksified inline-элементы: padding, margin и borderувеличивают height, а значит увеличивают content-area и высоту line-box
+
+Пример
+
+<iframe width="100%" height="300" src="https://jsfiddle.net/h7mb1aep/1/embedded/result,html,css/dark/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+<h2>vertical-align: важнейшее свойство</h2>
+
+`vertical-align` играет ведущую роль в форматировании текста.
+
+Значение по умолчанию — `baseline`. Значения ascender и descender определяют где находится базовая линия относительно em квадрата. Соотношение между ascenders и descenders редко бывает 50:50.
+
+Начнём с кода:
+
+```
+<p>
+    <span>Ba</span>
+    <span>Ba</span>
+</p>
+```
+```
+p {
+    font-family: Catamaran;
+    font-size: 100px;
+    line-height: 200px;
+}
+```
+
+Теги `<span>` унаследовали, значения font-family, font-size и имеют фиксированный line-height. Базовые линии (baselines) у них будут равны и высота line-box будет равна их line-height.
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/vertical-align-baseline.png" style="width:600px;">
+ 
+ Но что будет если, второй элемент будет иметь меньший размер шрифта?
+ 
+```
+ span:last-child {
+    font-size: 50px;
+}
+```
+
+Выглядит очень странно. Оба элемента выровнялись по базовой линии т.е. уже сместились относительно друг друга. line-height - оба имеют фиксированную, а это значит что расчитаная высота `line-box`, будет выше чем самый высокий line-height.  Я хотел бы напомнить вам, что высота line-box вычисляется от самой высокой точки своего дочернего элемента к низшей точке своего дочернего элемента.
+Взгляните на картинку.
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/vertical-align-baseline-nok.png" style="width:600px;">
+ 
+ Рассмотрим еще один пример:
+ 
+ Тег `<p>` с line-height: 200px, содержащий один `<span>`,  `<span>` наследует значение line-height
+ 
+ ```
+<p>
+    <span>Ba</span>
+</p>
+```
+
+```
+p {
+    line-height: 200px;
+}
+span {
+    font-family: Catamaran;
+    font-size: 100px;
+}
+```
+
+Какая высота будет у line-box? Кажется что 200px, но это не так. Проблема здесь заключается в том, что `<p>` имеет свой собственный font-family (по умолчанию serif). Базовые линии тега `<p>` и `<span>` скорее всего, будут различны, а высота `line-box` выше, чем ожидалось. Это происходит потому, что браузеры производят вычисления следующим образом: как будто бы каждый line-box начинается с символа нулевой ширины.
+
+В итоге, мы столкнулись с той же проблемой, что и в предыдущем примере.
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/vertical-align-strut.png" style="width:600px;">
+ 
+ Кажется по базовой линии все понятно, но что можно сказать насчет `vertical-align: middle`? 
+ 
+ Как пишут в спецификации, `middle` “выравнивает вертикальную среднюю точку контейнера с базовой линией родительского контейнера плюс половина x-height родительского блока”. Соотношение базовых линий различны, а также  как различно соотношение x-height, следовательно выравнивание middle не надежно. Как правило, `middle` никогда не бывает по “середине”. Этому способствуют много факторов в CSS (x-height, ascender/descender соотношение, и тд.)
+ 
+ В качестве примечания:
+ 
+ * `vertical-align: top / bottom` выравнивает по верху и низу line-box
+ * `vertical-align: text-top / text-bottom` выравнивает по верху и низу content-area
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/vertical-align-top-bottom-text.png" style="width:600px;">
+ 
+ Но используйте это с осторожностью, vertical-align работает с virtual-area. Посмотрите это на простом примере, используя vertical-align: top. Элементы выровнялись по верху обоих virtual-area элементов. Хотя мы наверное ожитали что текст выроняется по верху букв - это не так. 
+ 
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/vertical-align-top-virtual-height.png" style="width:600px;">
+ 
+`vertical-align` также принимает числовые значения, которые повышают или понижают virtual-area относительно базовой линии.
+ 
+ <h2>CSS превосходен</h2>
+ 
+ Мы говорили о том, как <defs>line-height</defs> и <defs>vertical-align</defs> работают вместе, но теперь вопрос заключается в следующем: как управлять размером шрифта с помощью CSS?  Что делать, если, используя шрифт Catamaran, мы хотим чтобы capital-height(Высота прописных символов) была точно в 100px? Давайте посмотрим на следующий пример.
+ 
+ Сначала мы выпишем все характеристики шрифта в переменные CSS (посльзовательские свойства), а затем вычислим размер шрифта, что бы получить заглавную букву высотой в 100px.
+
+```
+p {
+    /* значения шрифта */
+    --font: Catamaran;
+    --capitalHeight: 0.68;
+    --descender: 0.54;
+    --ascender: 1.1;
+    --linegap: 0;
+
+    /* желательный font-size для заглавной буквы */
+    --fontSize: 100;
+
+    /* применяем семейство */
+    font-family: var(--font);
+
+    /* вычисляем размер шрифта чтобы заглавные буквы были точного размера */
+    --computedFontSize: (var(--fontSize) / var(--capitalHeight));
+    font-size: calc(var(--computedFontSize) * 1px);
+}
+```
+
+fontSize делим на capitalHeight  = узнаем отношение нужного размера к физическому в шрифте, получаем 147,058823529
+Далее высчитываем размер шрифта. 147,058823529 * 1 = 147px. Мы зададим такой размер, а браузер обратно вычислит высоту заглавной буквы. 
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/css-metrics-capital-height.png" style="width:600px;">
+
+Довольно просто. Но так же мы хотим что бы наш текст был визуально посередине linebox. Для достижения этой цели, мы должны вычислить vertical-align на основе соотношения ascender/descender.
+
+Сначала вычислим line-height: normal и высоту content-area
+
+```
+p {
+    …
+    --lineheightNormal: (var(--ascender) + var(--descender) + var(--linegap));
+    --contentArea: (var(--lineheightNormal) * var(--computedFontSize));
+}
+```
+
+lineheightNormal - узнаем высоту символа шрифта
+contentArea - высоту символа умножаем на вычесленное соотношение желаемой высоты и capitalHeight
+
+Затем нам нужно:
+
+* расстояние от нижней части буквы к нижнему краю
+* расстояние от верхней части буквы к верхнему краю
+
+```
+p {
+    …
+    --distanceBottom: (var(--descender));
+    --distanceTop: (var(--ascender) - var(--capitalHeight));
+}
+```
+
+Теперь мы можем вычислить vertical-align, это разница между расстояниями, умноженных на вычисленный размера шрифта. 
+
+```
+p {
+    …
+    --valign: ((var(--distanceBottom) - var(--distanceTop)) * var(--computedFontSize));
+}
+span {
+    vertical-align: calc(var(--valign) * -1px);
+}
+```
+
+В конце концов, мы устанавливаем нужную line-height и сохраняем вертикальное выравнивание:
+
+```
+p {
+    …
+    /* desired line-height */
+    --lineheight: 3;
+    line-height: calc(((var(--lineheight) * var(--fontSize)) - var(--valign)) * 1px);
+}
+```
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/css-metrics-results-line-height.png" style="width:600px;">
+ 
+ Добавить иконку той же высоты теперь легко.
+ 
+```
+ span::before {
+    content: '';
+    display: inline-block;
+    width: calc(1px * var(--fontSize));
+    height: calc(1px * var(--fontSize));
+    margin-right: 10px;
+    background: url('https://cdn.pbrd.co/images/yBAKn5bbv.png');
+    background-size: cover;
+}
+```
+
+ <img src="https://iamvdo.me/content/01-blog/30-css-avance-metriques-des-fontes-line-height-et-vertical-align/css-metrics-results-icon.png" style="width:600px;">
+
+Вот результат на [JSBin](http://jsbin.com/tufatir/edit?css,output)
+
+Обратите внимание, что это испытание только для демонстрационных целей. Вы не можете полагаться на это. Много причин:
+
+* если метрик шрифта не являются постоянными, вычисления в браузерах не ¯⁠\⁠(ツ)⁠/⁠¯
+* если используется несколько шрифтов, расчет всего может стать быстро неуправляемым
+
+<h2>Выводы</h2>
+
+Мы узнали следующее:
+* Контекст форматирования инлайн действительно трудно понять
+* все встроенные элементы имеют 2 высоты:
+	* содержание зоны (на основе метрик шрифта)
+	* virtual-area (line-height)
+	* ни один из этих 2-х высот не может быть визуализировать без сомнения. (Если вы разработчик Devtools и хотите работать над этим, это может быть удивительным)
+* line-height: normal основан на показателях шрифта
+* line-height: n может создать виртуальную-область меньше, чем контент-зоны
+* vertical-align не очень надежный
+* высота line-box - ов вычисляется на основе дочерних элементов, line-height и vertical-align.
+* мы не можем точно/легко установить размер шрифта
+* существуют наброски в спецификациях, которые должны помочь с этим: [Line Grid module](https://drafts.csswg.org/css-line-grid/)
+
+Все сложно. Но мы все еще любим CSS :)
+
+<h2>Ресурсы</h2>
+
+* получаем характеристики шрифта [FontForge](https://fontforge.github.io/en-US/), [opentype.js](http://opentype.js.org/font-inspector.html)
+* [Ahem](https://www.w3.org/Style/CSS/Test/Fonts/Ahem/), специальный шрифт, с черными квадратными символами, что бы понять как это работает.
+* [тут](http://brunildo.org/test/aspect-lh-table2.html) есть тесты о описанной теме (у меня ссылка открывается только через tor)
+* более глубокое обьяснение о [inline formatting context](http://meyerweb.com/eric/css/inline-format.html)
+
+Буду рад комментариям...
+

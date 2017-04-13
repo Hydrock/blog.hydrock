@@ -1,0 +1,25 @@
+Title: Псевдокласс :root
+Content: Псевдокласс :root относится к структурным псевдоклассам и определяет корневой элемент документа.  В HTML этот селектор всегда соответствует элементу html.
+
+```
+:root {
+   background-color: #ccc;
+ }
+```
+
+```
+<body>
+	<p>This is a paragraph.</p>
+</body>
+```
+
+<img width="80%" src="https://www.w3.org/wiki/images/1/1b/Css3_selectors_root.png">
+
+Оригинал на [W3C](https://www.w3.org/wiki/CSS/Selectors/pseudo-classes/:root)
+
+В примере цвет фона был задан для тега html, более того, этот псевдокласс имеет больший вес чем сам тег
+
+<iframe height='265' scrolling='no' title='Pseudo Class - :root' src='http://codepen.io/Smitevils/embed/gLYQgL/?height=265&theme-id=dark&default-tab=css,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='http://codepen.io/Smitevils/pen/gLYQgL/'>Pseudo Class - :root</a> by Alexey (<a href='http://codepen.io/Smitevils'>@Smitevils</a>) on <a href='http://codepen.io'>CodePen</a>.
+</iframe>
+
+Также этот псевдокласс используется для объявления CSS переменных. Но об этом позже.

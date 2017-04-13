@@ -1,0 +1,205 @@
+Title: Настраиваем сборку React приложения с помощью Webpack и Babel (Для новичков)
+Content: <p>Оригинал статьи находится [здесь](https://www.twilio.com/blog/2015/08/setting-up-react-for-es6-with-webpack-and-babel-2.html) Эта статья немного дополнена моими комментариями.</p>
+
+<p><img alt="" src="http://blog.hydrock.ru/bl-content/uploads/es6-webpack-react-babel.png?1484139350137" style="width:100%" /></p>
+
+<p>ReactJS&nbsp;has been taking the world of front end development by storm. Described by its own homepage&nbsp;as the V in MVC, React allows you to build reusable UI components and makes maintaining changes in your data’s state effortless by abstracting the DOM. Combined with a bundler utility like Webpack, React greatly simplifies building and maintaining Single Page Applications.</p>
+
+<p>ReactJS продолжает штурмовать мир интернета. В сочетании со сборщиком&nbsp;Webpack, React значительно упрощает построение и поддержку одногостраничных приложений.</p>
+
+<p>Если совсем на пальцах,&nbsp;то&nbsp;React делает следующее: Весь код (вместе с&nbsp;версткой)&nbsp;пишется в JS, далее&nbsp;React преобразует код в верстку и вставляет на страничку. Все события отправляются и обрабатываются самим React и если что то изменилось в визуальной части, то&nbsp;React заменяет этот участок.</p>
+
+<p>Facebook проделал большую работу над&nbsp;поддержкой React в будущем, и даже сделал его совместимым с новыми функциями от <strong>ECMAScript 6 (ES6)</strong>, значительное обновление языка JavaScript, которое&nbsp;наконец-то доступно&nbsp;для использования. К сожалению, поддержка <strong>ES6</strong> не так широка, так что мы будем использовать&nbsp;<strong>Babel</strong>. <strong>Babel</strong> позволяет нам писать код, который использует новые функции <strong>ES6</strong>, а затем преобразует&nbsp;в стандартный <strong>ES5</strong>, который может работать в более старых средах JavaScript.</p>
+
+<p>В этом посте мы пройдем через шаги создания двух основных <strong>React</strong> компонентов, которые написаны на&nbsp;<strong>ES6</strong>, воспользуемся библиотекой&nbsp;<strong>Babel</strong>, чтобы преобразовать&nbsp;их в&nbsp;<strong>ES5</strong> и соберем проект&nbsp;с помощью <strong>Webpack</strong>.</p>
+
+<h2>Приготовления</h2>
+
+<p>Перед тем, как начинать писать код, убедитесь, что у вас установлен <strong>NodeJS</strong> и <strong>NPM</strong>, так как мы будем использовать их
+для установки пакетов.</p>
+
+<p>Создайте новую папку и перейдите в нее из консоли/терминала. Инициализируйте новый проект коммандой.</p>
+
+```
+npm init
+```
+
+<p>После того, как вы ответите на все вопросы конструктора, будет создан файл <strong>package.json</strong>. Файл сохранит все зависимости проекта в описании, что бы мы могли в дальнейшем развернуть проект.</p>
+<p>Теперь давайте установим React и React DOM:</p>
+
+```
+npm install --save react@0.14.7
+npm install --save react-dom@0.14.7
+```
+
+<p>Нам также потребуется установить Webpack и маленький локальный вебсервер (вебсервер Webpack), для обслуживания нашего приложения JavaScript. Некоторые пакеты нужно установить глобально, они имеют флаг <strong>-g</strong>. Если вы используете Mac или Linux, вам скорее всего нужно выполнять комманду через <strong>sudo</strong>.</p>
+
+```
+npm install --save-dev webpack@1.12.12
+npm install webpack-dev-server@1.12.1 -g
+```
+
+<p>Теперь, когда мы скачали сам сборщик и веб сервер для разработки, нам понадобится преобразователь ES6 кода в ES5. Это делает <strong>Babel</strong>. Давайте установим Babel Loader и базовые пакеты для работы с ES6, Webpack и React.</p>
+
+```
+npm install --save-dev babel-core@6.4.5
+npm install --save-dev babel-loader@6.2.1
+npm install --save-dev babel-preset-es2015@6.3.13
+npm install --save-dev babel-preset-react@6.3.13
+```
+<h2>Создание первого React компонента.</h2>
+<p>
+В React компоненты представляют собой отдельные строительные блоки. Вы создаете компоненты вашего приложения, то как они выглядят и за что отвечают. При создании компонента необходимо определить его с помощью наследования класса в ES6 (React.Component). 
+</p>
+<p>
+Наш первый компонент, будет выводить слово **Hello**.
+</p>
+<p>Создайте новый файл и назовите его **hello.jsx** и добавьте следующий код:</p>
+
+```
+import React from 'react';
+ 
+class Hello extends React.Component {
+  render() {
+    return <h1>Hello</h1>
+  }
+}
+```
+
+<p>Здесь мы имеем оператор импорта ES6 и определение класса ES6 с наследованием. Этот синтаксис довольно новый, он позволяет не использовать старые записи вида: React.createClass. Чуть ниже мы видим JSX. Весь этот новый синтаксис может выглядеть немного странно, но не беспокойтесь, потому что Babel, преобразует синтаксис ES6 и синтаксис JSX в ES5 JavaScript, который можно запустить в браузере.</p>
+
+<p>Вот как это выглядело раньше, без использования ES6 и JSX:</p>
+
+```
+var React = require('react');
+ 
+var Hello = React.createClass({displayName: 'Hello',
+  render: function() {
+    return React.createElement("h1", null, "Hello ");
+  }
+});
+```
+
+<p>Используя JSX мы упрощаем написание кода и сокращаем его.</p>
+
+<p>Теперь, когда мы написали класс нашего компонента, нам нужно "смонтировать" этот компонент к элементу DOM. Для этого мы импортируем React DOM и вызываем его функцию рендеринга, передавая в объект компонента, а также фактический DOM элемент для вставки самого компонента.</p>
+<p>Откройте hello.jsx снова и добавьте следующие строки:</p>
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+ 
+class Hello extends React.Component {
+  render() {
+    return <h1>Hello</h1>
+  }
+}
+ 
+ReactDOM.render(<Hello/>, document.getElementById('hello'));
+```
+
+<p>Отлично, теперь давайте создадим второй компонент - он будет отображать слово “world”. Создайте новый файл “world.jsx” и добавьте следующий код. Он очень напоминает предыдущий.</p>
+
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+ 
+class World extends React.Component {
+  render() {
+    return <h1>World</h1>
+  }
+}
+ 
+ReactDOM.render(<World/>, document.getElementById('world'));
+```
+
+<p>Теперь мы имеем два React компонента, но пока не используем их. Давайте исправим это. Создайте файл index.html и заполните шаблон.</p>
+
+```
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello React</title>
+  </head>
+  <body>
+    <div id="hello"></div>
+    <div id="world"></div>
+  </body>
+</html>
+```
+
+<p>Мы создали все необходимое для того чтобы React отобразил наше заветное Hello World. Теперь все это нужно собрать с помощью WebPack.</p>
+
+<h2>Сборка проекта на Webpack.</h2>
+<p>Webpack модульный сборщик файлов проекта, таких как, CSS, картинки, или JavaScript с большим количеством зависимостей в готовый продукт готовый попасть к клиенту. Webpack использует загрузчики (loaders) для конфигурации сборки. В нашем случае, мы хотим преобразовать JSX в JavaScript и ES6 в ES5. Нам необходимо создать точку входа для сборки проекта на Webpack. Webpack будет анализировать этот файл при сборке и следовать намеченным инструкциям.</p>
+
+<p>Создайтие файл **main.js** и пропишите:</p>
+```
+import Hello from './hello.jsx';
+import World from './world.jsx';
+```
+<p>Далее нам нужно сказать Webpack, что это будет наша точка входа и какие погрузчики использовать при создании сверток. Мы только с помощью загрузчика Babel, но мы могли бы использовать другие погрузчики для таких вещей, как CoffeeScript и SASS, если мы имели другие зависимости.
+Далее нам нужно сказать Webpack-у, что это будет наша точка входа и какие лоадеры использовать при создании конечного билда. Мы будем использовать только Babel, но вполне возможно использовать такие как CoffeeScript или SASS.
+</p>
+<p>
+Создайте файл webpack.config.js и напишите следующее:
+</p>
+```
+var path = require('path');
+var webpack = require('webpack');
+ 
+module.exports = {
+  entry: './main.js',
+  output: { path: __dirname, filename: 'bundle.js' },
+  module: {
+    loaders: [
+      {
+        test: /.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'react']
+        }
+      }
+    ]
+  },
+};
+```
+<p>
+И, наконец, нам нужно сделать еще одно небольшое изменение в нашем HTML, чтобы включить файл "bundle.js", который будет создан, когда мы запускаем сервер Webpack:
+</p>
+```
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello React</title>
+  </head>
+  <body>
+    <div id="hello"></div>
+    <div id="world"></div>
+    <script src="bundle.js"></script>
+  </body>
+</html>
+```
+<p>Давайте запустим сервер Webpack, чтобы увидеть наши компоненты на странице в действии:</p>
+```
+webpack-dev-server --progress --colors
+```
+
+<img src="https://www.twilio.com/blog/wp-content/uploads/2015/08/pQAS_IW4Nc_WQw-AbIA8v5s9n-ugqHWY34Ohlx5_sYIPwGv1hfbkgggmWwzrehzoJpSEa5Vw7owXXuDAxkYq_zK1X39Urm79c7sn93Zr3OQonF96_IV1MX3oXEiyfF-jtw6Z1Dh1.png">
+<p>
+Теперь после сборки и запуска веб сервера, результат можно посмотреть по адресу <a href="http://localhost:8080/webpack-dev-server/" target="_blank">http://localhost:8080/webpack-dev-server/</a>
+</p>
+<img src="https://www.twilio.com/blog/wp-content/uploads/2015/08/tFfKbkq4ai3LgtNYn1VjxuTnDMmXNJVUegg5zE6iCbW4FqBBRXxG05cumzn8-sFRZFmduolGP6Nba45T_LRiItzzZkFqkHSFsdE6tqNr72_r5XdqxDb7EmhfX-gnpxPcvtYHC0hE1.png">
+<p>
+Пока работает Dev Server - бандл находится в памяти. Что бы на самом деле собрать проект просто выполните комманду webpack
+</p>
+```
+webpack
+```
+<h2>Заключение</h2>
+<p>
+Всего вышеперечисленного вполгне должно хватить для сборки и разворота простого статического React приложения. Надеюсь - буду вам полезен.
+<p>

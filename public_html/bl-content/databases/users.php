@@ -1,0 +1,2 @@
+<?php defined('BLUDIT') or die('Bludit CMS.'); ?>
+{"admin":{"firstName":"Hydrock","lastName":"","role":"admin","password":"13a91692fc261cd4902cc66d5e205d8b3dede056","salt":"VFS1uNKX3R","email":"hydrock@yandex.ru","registered":"2016-10-27 13:35:02","tokenEmail":"","tokenEmailTTL":"2009-03-15 14:00","twitter":"https:\/\/twitter.com\/","facebook":"https:\/\/www.facebook.com\/SmiteVils","googlePlus":"","instagram":"https:\/\/www.instagram.com\/smitevils\/","username":"admin"}}

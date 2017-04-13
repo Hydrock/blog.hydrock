@@ -1,0 +1,9 @@
+Title: Верстка HTML писем - Особенности
+Content: <h2>Windows Mobile</h2>
+<h5>Windows Mobile Text Size Adjustment</h5>
+Так же, как в OSX и IOS, маленький шрифт становится больше и на Windows Mobile. Для предотвращения используем то же свойство но со своим прифексомм.
+```
+body{
+    -ms-text-size-adjust:100%;
+}
+```

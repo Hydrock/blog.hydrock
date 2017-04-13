@@ -1,0 +1,26 @@
+Title: Открытие ссылки в новом окне и target="_new"
+Content: Для открытия ссылки в новом окне, мы все используем атрибут **target** со значением **"_blank"**. Но такого еще не встречал: target="_new". Да и в спецификации ничего нет. Потестировал, оказалось первая ссылка с таким атрибутом открывается в новой вкладке, а последующие (с таким же атрибутом) открываются в этой же открывшейся влладке.
+
+Можете посмотреть сами:
+
+Сcылки с target="_blank". Откроются в новых вкладках.
+
+<a href="https://www.yandex.ru/" target="_blank">yandex.ru</a></br>
+<a href="https://www.google.ru/" target="_blank">google.ru</a></br>
+<a href="https://www.bing.com/" target="_blank">bing.com</a>
+
+Сcылки с target="_new". Первая откроется в новой вкладке, последующие в ней же.
+
+<a href="https://www.yandex.ru/" target="_new">yandex.ru</a></br>
+<a href="https://www.google.ru/" target="_new">google.ru</a></br>
+<a href="https://www.bing.com/" target="_new">bing.com</a>
+
+Более того, оказывается, в атрибуте target можно писать что угодно, все равно поведение будет таким же. Видимо это какое - то стандартное поведение браузеров. Просто в сообществе приняли такую форму записи ( target="_new" ) что бы знать что это именно то поведение.
+
+Проверьте:
+
+Сcылки с target="bla bla bla"
+
+<a href="https://www.yandex.ru/" target="bla bla bla">yandex.ru</a></br>
+<a href="https://www.google.ru/" target="bla bla bla">google.ru</a></br>
+<a href="https://www.bing.com/" target="bla bla bla">bing.com</a>
