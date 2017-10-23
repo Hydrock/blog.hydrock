@@ -1,0 +1,66 @@
+Title: Wordpress как backend / REST API
+Content: ## REST API
+
+<img src="http://blog.hydrock.ru/bl-content/uploads/banner.jpg" style="width: 100%;">
+
+Хорошо обьяснил это <a href="https://toster.ru/q/136265" target="_blank">понятие</a> пользователь тостера: REST (RESTful) - это общие принципы организации взаимодействия приложения/сайта с сервером посредством протокола HTTP. Особенность REST в том, что сервер не запоминает состояние пользователя между запросами - в каждом запросе передаётся информация, идентифицирующая пользователя (например, token, полученный через OAuth-авторизацию) и все параметры, необходимые для выполнения операции.
+
+<!-- pagebreak -->
+
+Всё взаимодействие с сервером сводится к 4 операциям (4 - это необходимый и достаточный минимум, в конкретной реализации типов операций может быть больше):
+1. получение данных с сервера (обычно в формате JSON, или XML)
+2. добавление новых данных на сервер
+3. модификация существующих данных на сервере
+4. удаление данных на сервере
+
+Я же постараюсь в картинках показать как это использовать в Wordpress.
+
+Есть хорошая <a href="https://cmscafe.ru/docs/wordpress/rest-api" target="_blank">коллекция статей</a> на эту тему.
+
+## WORDPRESS REST API
+
+Ранее, для взаимодействия с вебсайтом (на wordpress) посредством REST, был необходим специальный плагин. Но с недавних пор поддержка REST API была включена в ядро движка.
+
+Итак у нас есть чистая, установленная Wordpress. Попробуйте ввести следующую троку.
+
+```
+имя-вашего-сайта/wp-json/wp/v2/posts/
+```
+
+В ответ сервер вернет JSON с данными. В видео пример использования.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OwCaW-Ebdoc" frameborder="0" allowfullscreen></iframe>
+
+Уже можно с этим работать. Запрашивать данные и обрабатывать как вам вздумается.
+
+Можем делать выборки. Например по постам: 
+
+```
+имя-вашего-сайта/wp-json/wp/v2/posts?page=4
+```
+
+Более подробно вы можете почитать <a href="https://developer.wordpress.org/rest-api/" target="_blank">здесь</a>
+
+## Кастомные поля
+
+Но что делать если мы хотим апперировать другими данными, нежели посты? С этим нам помогут несколько плагинов для wordpress:
+
+**Custom Post Type UI** - создание категорий данных (как категория Посты или Страницы в wordpress)
+**Advanced Custom Fields** - Кастомные поля для новых категорий
+**ACF to REST API** - вывод кастомных полей в запросах REST
+
+Далее в 3-х видео я покажу как установить их. Как добавить кастомную категорию постов, прикрутить к ним кастомные поля, и наконец вывести в JSON.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/leB1VU3lDPU" frameborder="0" allowfullscreen></iframe>
+<br>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cLVG-HAjbe0" frameborder="0" allowfullscreen></iframe>
+<br>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8HxdiIDaaSI" frameborder="0" allowfullscreen></iframe>
+
+А что бы не тащить все данные можно отфильтровать используя плагин REST API — Filter Fields
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/xy4-Dge1YGQ" frameborder="0" allowfullscreen></iframe>
+
+Таким образом, вы можете добавлять данные и запрашивать их с помощью REST API.
+
+С авторизацией и записью данных чуть сложнее, но это как нибудь в другой раз.

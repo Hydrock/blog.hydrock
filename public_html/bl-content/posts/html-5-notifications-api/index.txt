@@ -1,0 +1,120 @@
+Title: HTML 5 Notifications API
+Content: В одном из своих Pet-projects, мне понадобилось сделать уведомления (Notifications). Давайте помсмотрим вместе, что и как.
+<img src="https://media.licdn.com/mpr/mpr/shrinknp_800_800/AAEAAQAAAAAAAAfBAAAAJGRkMWQyOTQ1LTVjMzAtNGU3My05MmI5LTllNzg3NTA1Nzc1Zg.png" style="width: 100%;">
+
+<!-- pagebreak -->
+
+### Возможности Notification API
+
+Notification API дает возможность отправлять уведомления через браузер. Можно немного стилизовать сообщение, добавить иконку, указать заголовок и текст уведомления.
+
+Поддержка:
+
+<img src="http://joxi.ru/brREJQYSJpEkbA.jpg" style="width: 100%;">
+
+Порядок работы следующий:
+
+1. Необходимо получить разрешение на отправку (Правило фиксируется для сайта);
+2. Отправить сообщение;
+
+#### Как это работает
+
+Глобальный обьект **window** имеет свойство **Notification** 
+
+Собственно, через него возможно проверить поддержку браузерами:
+
+```
+if (!window.Notification) {
+	console.log('Не поддерживается...');
+	return;
+} else {
+	/* Делать что-то */
+}
+```
+
+Notification API хранит состояние разрешения показа сообщений. Получить его можно с помощью свойства **permission**
+
+```
+window.Notification.permission => "default"
+```
+
+Permission имеет три состояния:
+
+1. Default - разрешение не спрашивали
+2. Denied - запретили уведомления
+3. Granted - соответственно сообщения разрешены
+
+Проверить можно так:
+
+```
+switch ( window.Notification.permission ) {
+    case "granted":
+        // можно
+        break;
+
+    case "denied":
+        // нельзя
+        break;
+
+    case "default":
+        // спросить
+}
+```
+
+Итак, теперь нужно получить разрешение на отправку уведомлений.
+
+#### Получение разрешения
+
+Notification.requestPermission отработает при разрешении default. requestPermission принимает функцию, которая получает выбранное разрешение как аргумент.
+
+```
+Notification.requestPermission( newMessage ); // дезаем запрос разрешения
+
+function newMessage(permission) {
+    if( permission != "granted" ) return false; // если разрешено
+    var notify = new Notification("Thanks for letting notify you"); // забегая вперед, создаем и отправляем уведомление
+};
+```
+
+К сажалению, а может и наоборот, кастомизировать диалоговое окно не получится. Многие разработчики делают следующим образом: Выводят сообщение с обьяснением, зачем же нужно подписаться, а затем, если пользователь хочет, выводят уже настоящее окно запроса.
+
+А вот как сделали в surfingbird (только стрелка показывает не туда):
+
+<img src="http://joxi.ru/12M7EZpSMYo9Rr.jpg" style="width: 100%;">
+
+#### Создание и отправка уведомления
+
+```
+var mailNotification = new Notification("Title", {
+    tag : "test",
+    body : "Новая нотификация...",
+    icon : "ссылка на картинку.jpg"
+});
+```
+
+Сообщение создано и отправлено
+
+* Строка "Title" обязательна - Заголовок сообщения
+* tag - Тег служит для группировки сообщений. Если тег один и то же, то новое сообщение будет заменять старое. Если же теги разные, сообщение будет в разных лейблах.
+* body - текст сообщения
+* icon - ссылка на иконку сообщения
+
+#### События уведомлений
+
+Нотификации имеют 4 события:
+
+*  **onclick** - срабатывает при клике на тело сообщения
+* **onshow** - срабатывает при показе сообщения
+* **onerror** - срабатывает, при попытке показать уведомление без разрешения ( default, denied ).
+* **onclose** - срабатывает при закрытии сообщения
+
+А вот пример работы, можно поиграться:
+
+<p data-height="400" data-theme-id="0" data-slug-hash="jLXXqd" data-default-tab="js,result" data-user="Hydrock" data-embed-version="2" data-pen-title="Web Notifications API" class="codepen">See the Pen <a href="https://codepen.io/Hydrock/pen/jLXXqd/">Web Notifications API</a> by Alexey (<a href="https://codepen.io/Hydrock">@Hydrock</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+#### Заключение
+
+Web Notifications, на мой взглад, очень полезный инструмент. Главное не слать всякую дурь, и только по существу. Как нибудь поробую развернуть отправку уведомлений с сервера, об этом тоже напишу обязательно. Ну и песенка для настроения...
+
+<iframe width="100%" height="450" scrolling="no" frameborder="no" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/339835228&amp;color=efeb00&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true"></iframe>

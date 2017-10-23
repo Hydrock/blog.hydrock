@@ -12,6 +12,23 @@ if(version_compare(phpversion(), '5.3', '<')) {
 	exit('Current PHP version '.phpversion().', you need > 5.3. (ERR_202)');
 }
 
+// Check PHP modules
+if(!extension_loaded('mbstring')) {
+	exit('PHP module mbstring is not installed. Check the requirements.');
+}
+
+if(!extension_loaded('json')) {
+	exit('PHP module json is not installed. Check the requirements.');
+}
+
+if(!extension_loaded('gd')) {
+	exit('PHP module gd is not installed. Check the requirements.');
+}
+
+if(!extension_loaded('dom')) {
+	exit('PHP module dom is not installed. Check the requirements.');
+}
+
 // Security constant
 define('BLUDIT', true);
 
@@ -184,14 +201,10 @@ function checkSystem()
 {
 	$stdOut = array();
 	$dirpermissions = 0755;
-	$phpModules = array();
-
-	if(function_exists('get_loaded_extensions')) {
-		$phpModules = get_loaded_extensions();
-	}
 
 	// Check .htaccess file for different webservers
-	if( !file_exists(PATH_ROOT.'.htaccess') ) {
+	if( !file_exists(PATH_ROOT.'.htaccess') )
+	{
 
 		if (	!isset($_SERVER['SERVER_SOFTWARE']) ||
 			stripos($_SERVER['SERVER_SOFTWARE'], 'Apache') !== false ||
@@ -203,48 +216,7 @@ function checkSystem()
 			$tmp['title'] = 'File .htaccess';
 			$tmp['errorText'] = $errorText;
 			array_push($stdOut, $tmp);
-
 		}
-	}
-
-	if(!in_array('gd', $phpModules))
-	{
-		$errorText = 'PHP module GD is not installed.';
-		error_log($errorText, 0);
-
-		$tmp['title'] = 'PHP module';
-		$tmp['errorText'] = $errorText;
-		array_push($stdOut, $tmp);
-	}
-
-	if(!in_array('dom', $phpModules))
-	{
-		$errorText = 'PHP module DOM is not installed. (ERR_203)';
-		error_log($errorText, 0);
-
-		$tmp['title'] = 'PHP module';
-		$tmp['errorText'] = $errorText;
-		array_push($stdOut, $tmp);
-	}
-
-	if(!in_array('json', $phpModules))
-	{
-		$errorText = 'PHP module JSON is not installed. (ERR_204)';
-		error_log($errorText, 0);
-
-		$tmp['title'] = 'PHP module';
-		$tmp['errorText'] = $errorText;
-		array_push($stdOut, $tmp);
-	}
-
-	if(!in_array('mbstring', $phpModules))
-	{
-		$errorText = 'PHP module Multibyte String (mbstring) is not installed. (ERR_206)';
-		error_log($errorText, 0);
-
-		$tmp['title'] = 'PHP module';
-		$tmp['errorText'] = $errorText;
-		array_push($stdOut, $tmp);
 	}
 
 	// Try to create the directory content
@@ -359,7 +331,11 @@ function install($adminPassword, $email, $timezone)
 		'tags'=>array(),
 		'status'=>'published',
 		'date'=>$currentDate,
-		'position'=>0
+		'position'=>0,
+		'coverImage'=>'',
+		'md5file'=>'',
+		'category'=>'',
+		'uuid'=>md5(uniqid())
 	    	),
 		'about'=>array(
 		'description'=>$Language->get('About your site or yourself'),
@@ -367,7 +343,11 @@ function install($adminPassword, $email, $timezone)
 		'tags'=>array(),
 		'status'=>'published',
 		'date'=>$currentDate,
-		'position'=>1
+		'position'=>1,
+		'coverImage'=>'',
+		'md5file'=>'',
+		'category'=>'',
+		'uuid'=>md5(uniqid())
 	    	)
 	);
 
@@ -381,7 +361,11 @@ function install($adminPassword, $email, $timezone)
 		'status'=>'published',
 		'tags'=>array('bludit'=>'Bludit','cms'=>'CMS','flat-files'=>'Flat files'),
 		'allowComments'=>'false',
-		'date'=>$currentDate
+		'date'=>$currentDate,
+		'coverImage'=>'',
+		'md5file'=>'',
+		'category'=>'',
+		'uuid'=>md5(uniqid())
 		)
 	);
 	file_put_contents(PATH_DATABASES.'posts.php', $dataHead.json_encode($data, JSON_PRETTY_PRINT), LOCK_EX);
@@ -402,6 +386,8 @@ function install($adminPassword, $email, $timezone)
 		'uriPost'=>'/post/',
 		'uriPage'=>'/',
 		'uriTag'=>'/tag/',
+		'uriBlog'=>'/blog/',
+		'uriCategory'=>'/category/',
 		'url'=>PROTOCOL.DOMAIN.HTML_PATH_ROOT,
 		'emailFrom'=>'no-reply@'.DOMAIN
 	);
@@ -444,6 +430,12 @@ function install($adminPassword, $email, $timezone)
 	);
 
 	file_put_contents(PATH_DATABASES.'security.php', $dataHead.json_encode($data, JSON_PRETTY_PRINT), LOCK_EX);
+
+	// File categories.php
+	$data = array(
+		'videos'=>array('name'=>'Videos', 'posts'=>array(), 'pages'=>array())
+	);
+	file_put_contents(PATH_DATABASES.'categories.php', $dataHead.json_encode($data, JSON_PRETTY_PRINT), LOCK_EX);
 
 	// File tags.php
 	file_put_contents(

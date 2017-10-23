@@ -247,5 +247,15 @@
 	"сurrent-status" : "Статус",
 	"disable-the-user" : "Отключить пользователя",
 	"add-a-new-page": "Добавить страницу",
-	"add-a-new-post": "Добавить пост"
+	"add-a-new-post": "Добавить запись",
+	
+	"save-as-draft": "Сохранить как черновик",
+	
+	"categories": "Категории",
+	"add-a-new-category": "Добавить новую категорию",
+	"new-category": "Новая категория",
+	"slug": "Slug",
+	"edit-category": "Редактировать категорию",
+	"last-page": "Последняя страница",
+	"first-page": "Первая страница"
 }

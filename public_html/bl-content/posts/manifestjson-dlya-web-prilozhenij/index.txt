@@ -1,0 +1,114 @@
+Title: Manifest.json для Web приложений
+Content: С момента появления магазинов приложений, вроде AppStore и Google Play, веб-разработчики, искали способ сделать веб-сайты более удобными, более похожими на приложения. Производители браузеров начали создавать инструменты для этого. Сначала, Apple начали поддерживать несколько мета-тегов, которые заполняли поля, добавляли иконку и загрузочный экран, при добавении сайта на главный экран. Выдит это так:
+
+```
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon-57x57.png">
+<link rel="apple-touch-startup-image" href="/splash-startup.png">
+```
+
+<!-- pagebreak -->
+
+Это было превосходно, но это поддерживалось только в iOS, а затем Google добавил похожие:
+
+```
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="icon" sizes="72x72"href="/icon72.png">
+<link rel="icon" sizes="114x114"href="/icon114.png">
+<link rel="icon" sizes="192x192"href="/icon.png">
+<link rel="icon" sizes="57x57"href="/icon57.png">
+```
+
+Далее пришел IE 10 и добавил свои специальные метатеги:
+
+```
+<meta name="application-name" content="my app"/>
+<meta name="msapplication-TileColor" content="#000000"/>
+<meta name="msapplication-square70x70logo" content="tiny.png"/>
+<meta name="msapplication-square150x150logo" content="square.png"/>
+<meta name="msapplication-wide310x150logo" content="wide.png"/>
+<meta name="msapplication-square310x310logo" content="large.png"/>
+```
+
+Что же делать со всем этим зоопарком? Становится сложно. Хорошей новостью является, то что, решение совсем рядом. Решение называется Manifest для веб-приложений, и он позволяет собирать все эти функции в одном стандартном объекте JSON (файл манифеста). Добавьте один файл в начало документа:
+
+```
+<link rel="manifest" href="manifest.json">
+```
+
+Теперь все просто? Ну, это будет тогда когда браузер, поддерживает его. И пока с этим все грустно.
+
+<p class="ciu_embed" data-feature="web-app-manifest" data-periods="future_1,current,past_1,past_2">
+  <a href="http://caniuse.com/#search=web-app-manifest">Can I Use Web App Manifest?</a> Data on support for the Web App Manifest feature across the major browsers from caniuse.com.
+</p>
+<script src="https://cdn.jsdelivr.net/caniuse-embed/1.0.1/caniuse-embed.min.js"></script>
+
+Но не волнуйтесь, есть довольно простой <a href="https://github.com/boyofgreen/manUp.js/" target="_blank">полифил</a>, который позволяет работать с manifest.json.
+
+<img src="https://cdn-images-1.medium.com/max/800/0*ksqWMG8Oz6GS_-7b.png" alt="simple">
+
+Ваш Сайт + Manifest делают отличное приложение для пользователей.
+
+<h3>Создание манифеста</h3>
+
+Сам манифест - это обычный объект JSON:
+
+```
+{
+  "name": "Super Racer 2000",
+  "short_name": "Racer2K",
+  "icons": [{
+        "src": "icon/lowres.png",
+        "sizes": "64x64",
+        "type": "image/webp"
+      }, {
+        "src": "icon/hd_small.png",
+        "sizes": "64x64"
+      }, {
+        "src": "icon/hd_hi.png",
+        "sizes": "128x128",
+        "density": 2
+      }],
+  "scope": "/racer/",
+  "start_url": "/racer/start.html",
+  "display": "fullscreen",
+  "orientation": "landscape"
+}
+```
+
+Большинство из этих значений понятны сразу:
+
+* Name: имя, отображаемое в списке приложений
+* Short Name: (рекомендуется 12 символов максимум) - это короткая версия имени приложения. Это необязательное поле, и если оно не указано, будет использоваться стандартное имя, хотя оно, вероятно, будет усечено. Краткое имя обычно используется там, где недостаточно места для отображения полного имени.
+* Start_url: когда вы нажимаете на иконку веб приложения, именно этот URL-адрес загружается (может быть относительным или полным URL-адресом)
+* Display: определить, как приложение должно быть представлено пользователю. Опции - полноэкранный, minimul-ui, автономный или браузер (открывается в браузере)
+* Ориентация: по умолчанию приложение относится к определенной ориентации, как определено в API ориентации экрана. Варианты: «любой», «естественный», «пейзаж», «портрет», «портретно-первичный», «портретно-вторичный», «ландшафтно-первичный» и «пейзажно-вторичный»,
+
+Остальные два значения немного сложнее, поэтому вам может понадобиться разобрать их немного больше:
+
+Иконки - это массив объектов, которые содержат характеристики для изображений, используемых приложением. Каждый объект может иметь несколько разных значений:
+
+* Src: это указывает на местоположение ресурса, независимо от того, содержит ли он расширение файла или нет. Src также может использоваться для определения типа файла. Опять же, этот путь может быть либо относительно URL-адреса, из которого был выведен манифест, либо полного URL-адреса
+* Type: определяет тип файла значка. Если расширение файла отсутствует в src, тип будет определяться по типу
+* Размеры: это объявляет размер изображения. Поскольку каждая платформа требует свои собственные уникальные размеры файлов, это позволяет браузеру определять, какие изображения он может использовать, и какие из них он игнорирует
+* Плотность: это плотность пикселей устройства, для которой предназначен значок. Если этот параметр опущен, пользовательский браузер принимает 1.0
+
+Есть довольно много свойст, я думаю нет смысла опысывать все. Можете почитать, например, <a href="https://developer.chrome.com/extensions/manifest" target="_blank">здесь</a> и <a href="https://w3c.github.io/manifest/" target="_blank">здесь</a>.
+
+<h3>Подключение манифеста</h3>
+
+Подключение манифеста очень простое. Он добавляется к вам на веб-сайте с тегом ссылки:
+
+```
+<link rel="manifest" href="manifest.json">
+```
+Путь может указывать на файл в том же домене или указывать на другой (конечно, в соответствии <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS" target="_blank">CORS</a>)
+
+<h3>Последние мысли</h3>
+
+Создание вашего веб-сайта с manifest.json довольно простое и может оказать сильное влияние на пользователей, тем более, что спецификация Manifest for Web Apps продвигается к реализации, а до тех пор используйте полифил <a href="https://github.com/boyofgreen/manUp.js/" target="_blank">ManUp.js</a>
+
+Автор - <a href="http://wat.codeplex.com/" target="_blank">https://twitter.com/boyofgreen</a> 

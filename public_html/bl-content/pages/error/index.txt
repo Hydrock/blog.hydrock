@@ -1,2 +1,2 @@
-Title: Ошибка
-Content: Страница не найдена.
+Title: Error
+Content: The page has not been found.

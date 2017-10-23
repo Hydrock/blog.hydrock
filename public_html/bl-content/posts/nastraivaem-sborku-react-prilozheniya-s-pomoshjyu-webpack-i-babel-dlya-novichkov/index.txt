@@ -3,6 +3,8 @@ Content: <p>Оригинал статьи находится [здесь](https:
 
 <p><img alt="" src="http://blog.hydrock.ru/bl-content/uploads/es6-webpack-react-babel.png?1484139350137" style="width:100%" /></p>
 
+<!-- pagebreak -->
+
 <p>ReactJS&nbsp;has been taking the world of front end development by storm. Described by its own homepage&nbsp;as the V in MVC, React allows you to build reusable UI components and makes maintaining changes in your data’s state effortless by abstracting the DOM. Combined with a bundler utility like Webpack, React greatly simplifies building and maintaining Single Page Applications.</p>
 
 <p>ReactJS продолжает штурмовать мир интернета. В сочетании со сборщиком&nbsp;Webpack, React значительно упрощает построение и поддержку одногостраничных приложений.</p>

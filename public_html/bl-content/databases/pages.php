@@ -1,1 +1,2 @@
 <?php defined('BLUDIT') or die('Bludit CMS.'); ?>
+{"error":{"description":"Error page","username":"admin","tags":[],"status":"published","date":"2017-08-09 11:10:48","position":0,"coverImage":"","md5file":"561cd4313ee04fd0778858f966f3454a","category":"","uuid":"c83de17988c272894c09d982058d2981"},"about":{"description":"About your site or yourself","username":"admin","tags":[],"status":"published","date":"2017-08-09 11:10:48","position":1,"coverImage":"","md5file":"e51403d510866e2cf0f21bbee9777dbb","category":"","uuid":"84ba3c407feefb8effcbe92687ce164b"}}

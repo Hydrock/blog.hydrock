@@ -1,0 +1,16 @@
+Title: Советы Верстальщику #1
+Content: Мои маленькие выводы возникающие во время работы.
+
+1. В SCSS именуй переменные цвета согласно их названию.
+
+Бывает довольно сложно выбрать название для цвета. А ведь для большинства оттенков название уже есть. Воспользуйтесь, например, вот этим сервисом http://chir.ag/projects/name-that-color/#6195ED
+http://www.color-blindness.com/color-name-hue/
+
+Даже если вашего цвета не оказалось, можно использовать рядом стоящее с каким-либо преффиксом.
+
+2. overflow: hidden на body не работает
+https://stackoverflow.com/questions/41506456/why-body-overflow-not-working
+https://stackoverflow.com/questions/27679150/applying-overflow-hidden-to-body
+https://toster.ru/q/241714
+
+http://phrogz.net/css/htmlvsbody.html

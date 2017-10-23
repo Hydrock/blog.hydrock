@@ -2,6 +2,7 @@ Title: CSS переменные
 Content: <h2>Поддержка</h2>
 C [поддержкой](http://caniuse.com/#search=css%20Variables) все довольно не плохо. Как всегда отличились детища мелкомягких. Но говорят, поддержка и у них скоро бутет.
 <img src="http://s020.radikal.ru/i710/1611/aa/3fe8c6d65049.jpg" alt="can i use - css variables" style="width: 100%; height: auto;">
+<!-- pagebreak -->
 <h2>Определение</h2>
 Переменная css обявляется с помощью двух дефисов за которыми следует имя переменной **--имяпеременной** (например --color). Использование так же простое - в значение свойства нужно написать ключевое слово var и в скобках передать имя переменной.
 <script async src="https://jsfiddle.net/SmiteVils/avL2yauv/8/embed/html,css,result/dark/"></script>

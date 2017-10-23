@@ -1,4 +1,4 @@
-﻿@charset "UTF-8";
+@charset "UTF-8";
 @font-face {
   font-family: 'icomoon';
   src: url("../fonts/icomoon/icomoon.eot?srf3rx");
@@ -20,7 +20,6 @@ html {
 
 body {
   margin: 0;
-  background: url(../images/pattern-white.png) right top repeat-x;
 }
 
 article,
@@ -76,12 +75,7 @@ strong {
 }
 
 dfn {
-  background: rgba(0,0,0,.2);
-  padding: 2px 2px 1px 2px;
-  border-radius: 0;
-  font-style: normal;
-  font-weight: 500;
-  white-space: nowrap;
+  font-style: italic;
 }
 
 h1 {
@@ -7338,7 +7332,7 @@ body {
   font-weight: 300;
   font-size: 15px;
   line-height: 26px;
-  color: #000;
+  color: #868f90;
 }
 
 a {
@@ -7363,18 +7357,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-selection {
-  color: #fff;
-  background: #e32929;
+  color: #868f90;
+  background: #f9f6f0;
 }
 
 ::-moz-selection {
-  color: #fff;
-  background: #e32929;
+  color: #868f90;
+  background: #f9f6f0;
 }
 
 ::selection {
-  color: #fff;
-  background: #e32929;
+  color: #868f90;
+  background: #f9f6f0;
 }
 
 #fh5co-header {
@@ -7393,7 +7387,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-left: 40px;
   padding-right: 40px;
   margin-bottom: 0;
-  background: transparent;
+  background: #fff;
   font-size: 13px;
   border: transparent;
 }
@@ -7601,7 +7595,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #fh5co-services {
-  padding: 4em 0;
+  padding: 7em 0;
   background: #fafafa;
 }
 @media screen and (max-width: 768px) {
@@ -8263,10 +8257,5 @@ a > img.fh5co-align-center {
   display: block;
   margin-left: auto;
   margin-right: auto;
-}
-
-iframe {
-  margin-top: 30px;
-  margin-bottom: 30px;
 }
 

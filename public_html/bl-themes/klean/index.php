@@ -102,7 +102,6 @@
 	Theme::jquery();
 	Theme::javascript('jquery.waypoints.min.js');
 	Theme::javascript('main.js');
-	Theme::javascript('wow.js');
 ?>
 
 <!-- Load plugins

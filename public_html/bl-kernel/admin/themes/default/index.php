@@ -63,6 +63,7 @@ $(document).ready(function() {
 	<li><a href="<?php echo HTML_PATH_ADMIN_ROOT.'manage-pages' ?>"><?php $L->p('Manage pages') ?></a></li>
 	<?php if($Login->role() == 'admin') { ?>
 	<li><a href="<?php echo HTML_PATH_ADMIN_ROOT.'users' ?>"><?php $L->p('Manage users') ?></a></li>
+	<!-- <li><a href="<?php echo HTML_PATH_ADMIN_ROOT.'categories' ?>"><?php $L->p('Manage categories') ?></a></li> -->
 	<li><a href="<?php echo HTML_PATH_ADMIN_ROOT.'settings-general' ?>"><?php $L->p('General settings') ?></a></li>
 	<li><a href="<?php echo HTML_PATH_ADMIN_ROOT.'settings-advanced' ?>"><?php $L->p('Advanced settings') ?></a></li>
 	<li><a href="<?php echo HTML_PATH_ADMIN_ROOT.'settings-regional' ?>"><?php $L->p('Language and timezone') ?></a></li>
@@ -115,6 +116,9 @@ $(document).ready(function() {
 			<li <?php echo ($layout['view']=='manage-pages')?'class="uk-active"':'' ?>>
 				<a href="<?php echo HTML_PATH_ADMIN_ROOT.'manage-pages' ?>"><?php $L->p('Pages') ?></a>
 			</li>
+			<!--<li <?php echo ($layout['view']=='categories')?'class="uk-active"':'' ?>>
+				<a href="<?php echo HTML_PATH_ADMIN_ROOT.'categories' ?>"><?php $L->p('Categories') ?></a>
+			</li>-->
 			<li <?php echo ($layout['view']=='users')?'class="uk-active"':'' ?>>
 				<a href="<?php echo HTML_PATH_ADMIN_ROOT.'users' ?>"><?php $L->p('Users') ?></a>
 			</li>
@@ -151,6 +155,20 @@ $(document).ready(function() {
 		?>
 		</div>
 
+		<?php
+			if( AUTO_SCROLL ) {
+		?>
+		<script>
+			// Auto scroll
+			$(document).ready(function () {
+				$('html, body').animate({
+					scrollTop: $('#bl-view').offset().top
+				}, 'slow');
+			});
+		</script>
+		<?php
+			}
+		?>
 </div>
 
 <!-- Javascript -->

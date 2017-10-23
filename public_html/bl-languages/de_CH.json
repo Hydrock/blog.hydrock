@@ -3,7 +3,7 @@
 	{
 		"native": "Deutsch (Schweiz)",
 		"english-name": "German",
-		"last-update": "2016-09-28",
+		"last-update": "2017-05-14",
 		"author": "Clickwork",
 		"email": "egoetschel@clickwork.ch",
 		"website": "https://clickwork.ch"
@@ -236,5 +236,9 @@
 	"сurrent-status" : "Status",
 	"disable-the-user" : "Benutzer deaktivieren",
 	"add-a-new-page": "Eine neue Seite hinzufügen",
-	"add-a-new-post": "Einen neuen Beitrag hinzufügen"
+	"add-a-new-post": "Einen neuen Beitrag hinzufügen",
+	"save-as-draft": "Als Entwurf speichern",
+	"slug": "Slug",
+	"this-plugin-may-not-be-supported-by-this-version-of-bludit": "Dieses Plugin kann möglicherweise mit der installierten Version von Bludit nicht verwendet werden.",
+        "this-theme-may-not-be-supported-by-this-version-of-bludit": "Dieses Theme kann möglicherweise mit der installierten Version von Bludit nicht verwendet werden."
 }

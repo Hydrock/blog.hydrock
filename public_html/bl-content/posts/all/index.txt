@@ -1,0 +1,27 @@
+Title: all
+Content: Никогда не сталкивался со свойством **CSS all**. Если вы тоже, давайте разбираться.
+
+Свойство **all** сбрасывает все свойства выбранного элемента, за исключением свойств направления (**direction**) и юникода-биди (**unicode-bidi**), которые управляют направлением текста.
+```
+.module {
+  all: unset;
+}
+```
+Это означает, что для сброса стилей в компоненте, иногда гораздо легче начинать с нуля, чем переопределять все что уже есть.
+<!-- pagebreak -->
+## Значения
+* initial: Сбрасывает все свойства выбранного элемента до их начальных значений, как определено в спецификации CSS.
+* inherit: Выбранный элемент наследует весь стиль его родительского элемента, включая стили, которые обычно не наследуются.
+* unset: Выбранный элемент наследует только наследуемые значения, переданные из родительского элемента.
+
+Не наследуются свойства *direction* и *unicode-bidi*
+
+## Демо
+См. Вкладку CSS для просмотра комментариев, которые указывают, какие свойства наследуются. Обратите внимание, что когда используется значение inherit, div наследует каждое свойство от его родителя, включая его ширину, отступы и границу, которые обычно не наследуются.
+<p data-height="265" data-theme-id="0" data-slug-hash="GvMNmZ" data-default-tab="result" data-user="Hydrock" data-embed-version="2" data-pen-title="all property demo" class="codepen">See the Pen <a href="https://codepen.io/Hydrock/pen/GvMNmZ/">all property demo</a> by Alexey (<a href="https://codepen.io/Hydrock">@Hydrock</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+## Поддержка
+<p class="ciu_embed" data-feature="css-all" data-periods="future_1,current,past_1,past_2">
+  <a href="http://caniuse.com/#feat=css-all">Can I Use allt?</a> Data on support for the all rele feature across the major browsers from caniuse.com.
+</p>
+<script src="https://cdn.jsdelivr.net/caniuse-embed/1.0.1/caniuse-embed.min.js"></script>

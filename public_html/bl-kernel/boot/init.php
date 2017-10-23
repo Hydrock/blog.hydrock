@@ -1,16 +1,16 @@
 <?php defined('BLUDIT') or die('Bludit CMS.');
 
 // Bludit version
-define('BLUDIT_VERSION',	'1.5.2');
-define('BLUDIT_CODENAME',	'Learning To Fly');
-define('BLUDIT_RELEASE_DATE',	'2016-10-11');
-define('BLUDIT_BUILD',		'20161011');
+define('BLUDIT_VERSION',	'1.6.2');
+define('BLUDIT_CODENAME',	'Another place in the world');
+define('BLUDIT_RELEASE_DATE',	'2017-05-28');
+define('BLUDIT_BUILD',		'20170528');
 
 // Debug mode
+// Change to FALSE, for prevent warning or error on browser
 define('DEBUG_MODE', TRUE);
 error_reporting(0); // Turn off all error reporting
-if(DEBUG_MODE)
-{
+if(DEBUG_MODE) {
 	// Turn on all error reporting
 	ini_set("display_errors", 1);
 	ini_set('display_startup_errors',1);
@@ -48,6 +48,8 @@ define('PATH_ADMIN_THEMES',		PATH_ADMIN.'themes'.DS);
 define('PATH_ADMIN_CONTROLLERS',	PATH_ADMIN.'controllers'.DS);
 define('PATH_ADMIN_VIEWS',		PATH_ADMIN.'views'.DS);
 
+define('DEBUG_FILE',			PATH_CONTENT.'debug.txt');
+
 // Log separator
 define('LOG_SEP', ' | ');
 
@@ -58,6 +60,9 @@ if(!defined('JSON_PRETTY_PRINT')) {
 
 // Protecting against Symlink attacks.
 define('CHECK_SYMBOLIC_LINKS', TRUE);
+
+// Auto scroll
+define('AUTO_SCROLL', TRUE);
 
 // Alert status ok
 define('ALERT_STATUS_OK', 0);
@@ -90,7 +95,7 @@ define('NO_PARENT_CHAR', '3849abb4cb7abd24c2d8dac17b216f17');
 // Post per page on Manage->Posts
 define('POSTS_PER_PAGE_ADMIN', 10);
 
-// Cli mode status for new posts/pages
+// Enable or disable Cli mode
 define('CLI_MODE', FALSE);
 
 // Cli mode status for new posts/pages
@@ -99,7 +104,7 @@ define('CLI_STATUS', 'published');
 // Cli mode username for new posts/pages
 define('CLI_USERNAME', 'admin');
 
-// Filename for posts and pages, you can change for example, for index.md
+// Filename for posts and pages, you can change it, for example, for index.md
 define('FILENAME', 'index.txt');
 
 // Database date format
@@ -117,8 +122,8 @@ define('TOKEN_EMAIL_TTL', '+15 minutes');
 // Charset, default UTF-8.
 define('CHARSET', 'UTF-8');
 
-// EXTREME FRIENDLY URL, TRUE for dissmiss internet standard
-define('EXTREME_FRIENDLY_URL', false);
+// EXTREME FRIENDLY URL, TRUE for dissmiss internet standard. Experimental!
+define('EXTREME_FRIENDLY_URL', FALSE);
 
 // Directory permissions
 define('DIR_PERMISSIONS', 0755);
@@ -141,6 +146,7 @@ include(PATH_KERNEL.'dbusers.class.php');
 include(PATH_KERNEL.'dbtags.class.php');
 include(PATH_KERNEL.'dblanguage.class.php');
 include(PATH_KERNEL.'dbsite.class.php');
+//include(PATH_KERNEL.'dbcategories.class.php');
 include(PATH_KERNEL.'post.class.php');
 include(PATH_KERNEL.'page.class.php');
 include(PATH_KERNEL.'user.class.php');
@@ -180,6 +186,7 @@ $dbPosts 	= new dbPosts();
 $dbPages 	= new dbPages();
 $dbUsers 	= new dbUsers();
 $dbTags 	= new dbTags();
+//$dbCategories 	= new dbCategories();
 $Site 		= new dbSite();
 $Url 		= new Url();
 $Parsedown 	= new ParsedownExtra();

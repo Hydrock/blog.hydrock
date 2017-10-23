@@ -1,0 +1,10 @@
+{
+	"author": "Jaiden Everett",
+	"email": "author.jaiden@gmail.com",
+	"website": "https://jaideneverett.com",
+	"version": "2.0",
+	"releaseDate": "2017-04-22",
+	"license": "GPL V2",
+	"compatible": "1.3,1.4,1.5,1.5.2,1.6",
+	"notes": ""
+}

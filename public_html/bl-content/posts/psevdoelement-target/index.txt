@@ -1,6 +1,6 @@
 Title: Псевдоэлемент :target
 Content: Чтобы делать ссылки на отдельные статьи, в пределах одной страницы, мы вешаем так называемые "якоря" - ID на нужное место, например на статью. А потом в ссылке, в атрибуте href указываем ID нужной статьи. При клике по ссылке, страница моментально скроллится к нужному месту. Оказывается наш элемент с ID, наша статья, в момент перехода к ней по якорю, имеет псевдокласс :target Можете посмотреть ниже пример.
-
+<!-- pagebreak -->
 <iframe height='265' scrolling='no' title='Pseudoclass :target' src='http://codepen.io/Smitevils/embed/BLgwdW/?height=265&theme-id=dark&default-tab=css,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='http://codepen.io/Smitevils/pen/BLgwdW/'>Pseudoclass :target</a> by Alexey (<a href='http://codepen.io/Smitevils'>@Smitevils</a>) on <a href='http://codepen.io'>CodePen</a>.
 </iframe>
 

@@ -3,11 +3,11 @@
 }
 
 .bl-container-title {
-        padding: 4em 0 2em;
+        padding: 7em 0;
 }
 
 .bl-container-main {
-        padding-bottom: 4em;
+        padding-bottom: 7em;
 }
 
 .bl-author img {
@@ -60,5 +60,5 @@ Page and post content
 .bl-page-post-content h4:not(:first-child),
 .bl-page-post-content h5:not(:first-child),
 .bl-page-post-content h6:not(:first-child) {
-	margin-top: 20px;
+	margin-top: 40px;
 }

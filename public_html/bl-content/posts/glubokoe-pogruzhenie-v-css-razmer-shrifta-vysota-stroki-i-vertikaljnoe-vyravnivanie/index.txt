@@ -1,5 +1,7 @@
 Title: Глубокое погружение в CSS: Размер шрифта, высота строки и вертикальное выравнивание.
-Content: Это моя личная адаптация вот этой <a href="http://iamvdo.me/en/blog/css-font-metrics-line-height-and-vertical-align?utm_source=CSS-Weekly&utm_campaign=Issue-253&utm_medium=email" target="_blank">статьи</a>. Для меня она показалась немного сложной, хоть и очень обширной. Попробую рассказать своим языком.
+Content: Это моя личная адаптация вот этой <a href="http://iamvdo.me/en/blog/css-font-metrics-line-height-and-vertical-align?utm_source=CSS-Weekly&utm_campaign=Issue-253&utm_medium=email" target="_blank">статьи</a>. Для меня она показалась немного сложной, хоть и очень обширной. Попробую рассказать своим языком.``
+
+<!-- pagebreak -->
 
 Вы наверное замечали, что разные семейства шрифтов, при одинаковом `font-size`, имеют разную высоту. Это еще та заноза в заднице. 
 

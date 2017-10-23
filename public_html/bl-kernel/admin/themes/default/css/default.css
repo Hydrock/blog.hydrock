@@ -209,9 +209,36 @@ div.dashboard-links h4 {
 	font-size: 0.9em !important;
 }
 
+.bl-publish-sidebar ul {
+	margin: 0;
+	padding: 0;
+}
+
+.bl-publish-sidebar li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.bl-publish-sidebar li:not(:first-child) {
+	margin-top: 10px;
+}
+
 .bl-publish-sidebar .uk-form-label {
 	font-size: 0.9em;
 	text-transform: uppercase;
+	font-weight: normal;
+}
+
+.bl-publish-sidebar .sidebar-view {
+	display: none;
+}
+
+.bl-publish-sidebar h2.sidebar-button {
+	font-size: 0.9em;
+	text-transform: uppercase;
+	border-bottom: 1px solid #ddd;
+	cursor: pointer;
 }
 
 .uk-form legend {
@@ -243,6 +270,10 @@ button.aslink:hover {
 	padding-left: 20px;
 }
 
+.uk-table td, .uk-table th {
+	padding: 14px 8px !important;
+}
+
 /* RESPONSIVE
 ---------------------------------------------------------------- */
 
@@ -266,7 +297,9 @@ button.aslink:hover {
 	}
 
 	.bl-publish-sidebar {
-		display: none !important;
+        	width: 100%;
+    		padding-left: 0;
+    		margin: 20px 0;
 	}
 
 	.bl-publish-view {
@@ -340,19 +373,19 @@ table.statistics tr:last-child td {
 }
 
 #bludit-tags .uk-button {
-	padding: 0 12px !important;
-	margin-left: 10px;
+	margin-top: 5px;
 }
 
 #jstagList {
 	margin-top: 15px;
+	font-size: 0.9em;
 }
 
 #jstagList span.unselect,
 #jstagList span.select {
-	margin-top: 5px;
-	margin-right: 5px;
-	padding: 2px 15px;
+	margin-top: 7px;
+	margin-right: 7px;
+	padding: 1px 15px;
 	cursor: pointer;
 	display: inline-block;
 	border-radius: 3px;
@@ -564,6 +597,17 @@ tr.theme-installed {
 	background: #F2F7FF !important;
 }
 
+div.plugin-name i.settings-icon {
+	float: right;
+	margin-top: 3px;
+	margin-left: 3px;
+}
+
+i.incompatible-warning {
+	color: #FFC425;
+	padding-right: 5px;
+}
+
 div.plugin-links > a {
 	display: inline-block;
 	margin-top: 5px;
@@ -605,7 +649,15 @@ div.plugin-links > span.separator {
 }
 
 #paginator li.right {
-   margin-left: 10px;
+    margin-left: 10px;
+}
+
+#paginator li.next {
+		margin-right: 1em;
+}
+
+#paginator li.previous {
+		margin-left: 1em;
 }
 
 /* ----------- PLUGINS FORM ----------- */
